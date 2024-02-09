@@ -82,7 +82,8 @@ class Engine {
 class Berry {
     static color = "#A00034"
 
-    constructor(ctx) {
+    constructor(gameCanvas, ctx) {
+        this.gameCanvas = gameCanvas
         this.ctx = ctx;
 
         this.RandomPosition()
@@ -100,8 +101,11 @@ class Berry {
      * set random position using ctx and sizeCeil
      */
     RandomPosition() {
-        this.x = getRandomInt(0, gameCanvas.offsetWidth / Snake2DGame.config.sizeCeil) * Snake2DGame.config.sizeCeil
-        this.y = getRandomInt(0, gameCanvas.offsetHeight / Snake2DGame.config.sizeCeil) * Snake2DGame.config.sizeCeil
+        this.x = getRandomInt(0, this.gameCanvas.offsetWidth / Snake2DGame.config.sizeCeil) * Snake2DGame.config.sizeCeil
+        this.y = getRandomInt(0, this.gameCanvas.offsetHeight / Snake2DGame.config.sizeCeil) * Snake2DGame.config.sizeCeil
+
+        console.log(Snake2DGame.config.sizeCeil)
+        console.log(`${this.x} and ${this.y}`)
     }
 }
 
@@ -122,8 +126,8 @@ class Snake {
 
         this.isDied = false;
         // Coordinates
-        this.x = 16;
-        this.y = 16;
+        this.x = Snake2DGame.config.sizeCeil;
+        this.y = Snake2DGame.config.sizeCeil;
 
         // Speed
         this.dx = Snake2DGame.config.sizeCeil;
@@ -168,6 +172,7 @@ class Snake {
     Move() {
         this.x += this.dx;
         this.y += this.dy;
+        console.log(`SNAKE: ${this.x} and ${this.y}`)
     }
     /**
      * Change direction, using dx, dy. 
@@ -239,7 +244,7 @@ class Snake2DGame extends Engine {
     }
     Start() {
         this.snake = new Snake(this.ctx);
-        this.berry = new Berry(this.ctx);
+        this.berry = new Berry(this.canvas, this.ctx);
         this.score = 0;
 
         super.Start();
